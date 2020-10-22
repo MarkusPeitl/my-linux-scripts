@@ -130,3 +130,19 @@ sudo apt update
 # --++--- Installing misc packages
 #cd ~
 #curl -O https://www.reaper.fm/files/6.x/reaper615_linux_x86_64.tar.xz
+
+
+# --------------------- Dektops Environments:
+#sudo apt install -y ubuntu-mate-desktop
+#sudo apt-get install kde-standard
+#sudo apt install xfce4
+#sudo apt install cinnamon-desktop-environment
+
+
+#sudo apt-get install kubuntu-desktop
+#sudo apt-get install xubuntu-desktop
+
+
+#sudo apt update && sudo apt upgrade -y
+
+
