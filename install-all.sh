@@ -1,0 +1,1 @@
+python3 install-all-of.py package-collections

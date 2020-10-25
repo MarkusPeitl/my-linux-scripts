@@ -1,0 +1,49 @@
+#sudo apt-get install -y
+
+## Apt:
+## Smaller packages
+## Better gui integration
+## Auto updates
+##
+## Snaps:
+## Apps isolated -> clean uninstall (att also data and deps)
+## Sandboxed
+##
+## Prefer Apt
+
+#--- DEV
+ffmpeg
+git
+
+#--- Photo edit
+#digikam
+#darktable
+
+#--- ScreenRec
+#kazam
+simplescreenrecorder
+
+#--- ScreenShot
+#shutter 
+
+#--- Office
+#libreoffice
+
+#--- System
+#gnome-tweaks
+#gnome-shell-extensions
+
+#--- Internet
+#firefox
+
+#--- Audio
+audacity
+
+#--- Video
+obs-studio
+
+#--- Mail
+thunderbird
+
+#package managers
+flatpak

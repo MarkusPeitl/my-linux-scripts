@@ -1,0 +1,19 @@
+#flatpak install
+
+# ----------------- Flatpack Programs similar to snap (but can share deps)
+#sudo apt install flatpak
+#flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+# flatpak install $XXX
+
+-y flathub com.valvesoftware.Steam
+#flathub org.libreoffice.LibreOffice
+#flathub org.kde.kdenlive
+-y flathub com.github.carlos157oliveira.Calculus
+-y flathub io.atom.Atom
+
+
+#flatpak run com.valvesoftware.Steam
+#flatpak run org.libreoffice.LibreOffice
+#flatpak run org.kde.kdenlive
+#flatpak run com.github.carlos157oliveira.Calculus
+#flatpak run io.atom.Atom

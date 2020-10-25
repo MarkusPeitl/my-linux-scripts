@@ -1,0 +1,54 @@
+#sudo snap install
+
+## Apt:
+## Smaller packages
+## Better gui integration
+## Auto updates
+##
+## Snaps:
+## Apps isolated -> clean uninstall (att also data and deps)
+## Sandboxed
+##
+## Prefer Apt
+
+# ----------------- SNAP Programs (UBUNTU)
+
+#--- DEV
+code --classic
+notepad-plus-plus
+#android-studio --classic
+
+#node --classic
+# --- might fail as npm does not work after installation (can be fixed by making executable and addiding to the right path --> google)
+
+#--- Mail
+#thunderbird
+
+#--- Internet
+#chromium
+#firefox
+
+#--- Audio
+#audacity
+
+#--- Screenshot
+#shutter
+
+#--- Video
+#vlc
+#obs-studio
+#shotcut
+#kdenlive
+
+#--- Communication
+skype --classic
+#slack
+#discord
+
+#--- Misc
+#canonical-livepatch
+#ffmpeg
+#simplenote
+
+#--- Android
+anbox --beta --devmode --jailmode

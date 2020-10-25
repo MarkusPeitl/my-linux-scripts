@@ -28,6 +28,7 @@ sudo apt update
 
 #--- ScreenRec
 #sudo apt install kazam
+#sudo apt-get install simplescreenrecorder
 
 #--- ScreenShot
 #sudo apt-get install shutter 
