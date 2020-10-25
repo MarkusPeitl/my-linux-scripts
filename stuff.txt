@@ -1,0 +1,12 @@
+#Recommended drivers
+ubuntu-drivers devices
+
+sudo apt install nvidia-driver-450
+
+#Show hardware info
+#sudo lshw -C display
+#lspci -k | grep -A 2 -i "VGA"
+
+#Open nvidia control panel
+#sudo nvidia-settings
+
