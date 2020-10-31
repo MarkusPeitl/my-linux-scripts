@@ -1,2 +1,2 @@
-wmic
-/output:%CD%\InstalledPrograms.txt product get name,version
+powershell -command "Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | where-object {$_.DisplayName -ne $null} | ConvertTo-Csv | Out-File -FilePath "%CD%\installedprograms.txt""
+powershell -command "Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, Publisher, InstallDate | where-object {$_.DisplayName -ne $null} | ConvertTo-Csv | Out-File -FilePath "%CD%\installedprograms.txt" -Append"
