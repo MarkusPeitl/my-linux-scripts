@@ -1,0 +1,4 @@
+# Should either define an alias for the program or provide alternative programs
+# Left = Windows, Right = Linux
+Node.js = nodejs, node
+Adobe Premiere Pro = kdenlive, aaaa, vvvv

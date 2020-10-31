@@ -14,6 +14,8 @@
 #--- DEV
 ffmpeg
 git
+make
+gcc
 
 #--- Photo edit
 #digikam
@@ -47,3 +49,11 @@ thunderbird
 
 #package managers
 flatpak
+
+#Shell
+zsh
+
+#Virtual Machine Software
+#virtualbox
+#virtualbox-qt
+#virtualbox-dkms 

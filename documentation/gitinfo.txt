@@ -4,6 +4,8 @@ sudo make
 git config --global credential.helper /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 
 # Maybe restart terminal
+# git config --global user.email "you@example.com"
+# git config --global user.name "Your Name"
 # Make sure you have an access token
 # git clone repo
 # Enter username
