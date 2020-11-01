@@ -4,18 +4,19 @@
 #uniMgr = UniStallManager()
 #uniMgr.find("Mozilla Firefox 75.0 (x64 de)")
 from difflib import SequenceMatcher
+import os
 
-def collectPkgsOfFindCmd(findCommand, findName):
+def collectLinesOfCommand(findCommand):
     foundPkgNames = []
 
     #print("Executing: \"" + findCommand + "\" and looking for: " + findName)
     output = subprocess.run(findCommand.split(" "), capture_output=True, encoding="utf-8")
     #print(output.stderr)
     #print(output.stdout)
-    outputLines = output.stdout.split("\n")
+    return output.stdout.split("\n")
     #print(outputLines)
 
-    for line in outputLines:
+    """for line in outputLines:
         #print("extracting from line: " + line)
         if(findName in line and "Name" not in line):
             #lineParts = line.split("\t")
@@ -26,15 +27,17 @@ def collectPkgsOfFindCmd(findCommand, findName):
                 name = line[0:int(nameEndStart)]
                 foundPkgNames.append(name)
 
-    return foundPkgNames
+        return foundPkgNames
+    """
 
 import re
 
 #Regex to remove invalid characters for searching
-blacklistRegex = re.compile("\(|\)")
+blacklistRegex = re.compile("\(|\)|\+")
 minPartLength = 4
 maximumPercentOfNumbers = 0.6
 maxConsiderTerms = 4
+replaceWhitespaceRegex = re.compile("[ ]+")
 
 def sanitize(term):
     return blacklistRegex.sub("",term)
@@ -85,20 +88,27 @@ def createPkgScoreBoard(searchHierarchy,pkgManager):
             searchTerm = searchLevel[x]
 
             levelTermPackages = pkgManager.find(searchTerm)
-            for pkgName in levelTermPackages:
-            
+            for pkgInfo in levelTermPackages:
+                pkgName = pkgInfo["name"]
+
                 if(pkgName not in scoreBoardDict):
                     # parts -> less exact matched -> lower base score
-                    scoreBoardDict[pkgName] = 1.0/(i+1)
+                    scoreBoardDict[pkgName] = pkgInfo
+                    
+                    scoreBoardDict[pkgName]["score"] = 1.0/(i+1)
                     #scoreBoardList.append(pkgName)
-
-                scoreBoardDict[pkgName] += SequenceMatcher(None, pkgName, searchTerm).ratio() * 1.0/(i+1)
+                scorePkgEntry = scoreBoardDict[pkgName]
 
                 #Emphasise term postion (earlier terms are more important)
-                scoreBoardDict[pkgName] *= 1.0 + (len(searchLevel) - x)/len(searchLevel)
+                scorePkgEntry["score"] *= 1.0 + (len(searchLevel) - x)/len(searchLevel)
 
-    sortedDict = sorted(scoreBoardDict)
-    return sortedDict
+                exactNess = SequenceMatcher(None, pkgName, searchTerm).ratio()
+                #scoreBoardDict[pkgName] += (SequenceMatcher(None, pkgName, searchTerm).ratio() - 0.5) * 1.0/(i+1)
+                scorePkgEntry["score"] += scorePkgEntry["score"] * exactNess
+                
+
+    #sortedDict = sorted(scoreBoardDict)
+    return scoreBoardDict
 
 import subprocess
 
@@ -109,7 +119,57 @@ class SnapManager:
 
     def find(self, packageTerm):
         command = "snap find " + packageTerm
-        return collectPkgsOfFindCmd(command, packageTerm)
+        pkgLines = collectLinesOfCommand(command)
+
+        foundPkgInfos = []
+        if(len(pkgLines) > 0):
+            header = pkgLines[0]
+            headerParts = replaceWhitespaceRegex.sub(" ", header).split(" ")
+
+            for i in range(1,len(pkgLines)):
+                if(packageTerm in pkgLines[i]):
+                    packageLine = pkgLines[i]
+                    if(len(packageLine) > 8):
+                        
+                        #print("extracting from line: " + packageLine)
+                        lineParts = replaceWhitespaceRegex.sub(" ", packageLine).split(" ")
+
+                        pkgInfo = {
+                            "name": lineParts[0],
+                            "installid": lineParts[0],
+                            "version": lineParts[1],
+                            "publisher": lineParts[2],
+                            "description": " ".join(lineParts[4:]),
+                            "pkgmgr": self.name
+                        }
+
+                    foundPkgInfos.append(pkgInfo)
+
+        return foundPkgInfos
+
+    def install(self,packageName):
+
+        print("0) strict sandboxed - default")
+        print("1) classic - app has access to system")
+        print("e) exit app installation")
+        response = input("Confinement mode? ")
+        flags = ""
+
+        if(len(response) > 0):
+            if(response.isnumeric() and int(response) >= 0 and int(response) <=1):
+                if(int(response) == 1):
+                    flags = " --classic"
+            elif response == "e":
+                return False
+            else:
+                print("Invalid option")
+                return self.install(packageName)
+
+
+        command = "snap install " + packageName + flags
+        print("Executing install: " + command)
+        os.system(command)
+        return True
 
 class FlatPakManager:
     #sudo apt install flatpak
@@ -119,7 +179,40 @@ class FlatPakManager:
 
     def find(self, packageTerm):
         command = "flatpak search " + packageTerm
-        return collectPkgsOfFindCmd(command, packageTerm)
+        pkgLines = collectLinesOfCommand(command)
+
+        foundPkgInfos = []
+        if(len(pkgLines) > 0):
+            header = pkgLines[0]
+            header = header.replace("Application ID","ApplicationID")
+            headerParts = replaceWhitespaceRegex.sub(" ", header).split(" ")
+
+
+            for i in range(1,len(pkgLines)):
+                if(packageTerm in pkgLines[i]):
+                    packageLine = pkgLines[i]
+                    if(len(packageLine) > 8):
+                        #print("extracting from line: " + packageLine)
+                        #lineParts = replaceWhitespaceRegex.sub(" ", packageLine).split(" ")
+                        lineParts = packageLine.split("\t")
+
+                        pkgInfo = {
+                            "name": lineParts[0],
+                            "installid": lineParts[2],
+                            "version": lineParts[3],
+                            "description": lineParts[1],
+                            "pkgmgr": self.name
+                        }
+
+                        foundPkgInfos.append(pkgInfo)
+
+        return foundPkgInfos
+
+    def install(self,packageName):
+        command = "flatpak install " + packageName
+        print("Executing install: " + command)
+        os.system(command)
+        return True
 
 class AptManager:
 
@@ -128,14 +221,42 @@ class AptManager:
 
     def find(self, packageTerm):
         command = "apt list"
-        pkgs = collectPkgsOfFindCmd(command, packageTerm)
-        pkgNameList = []
-        for pkg in pkgs:
-            parts = pkg.split("/")
-            pkgNameList.append(parts[0])
+        pkgLines = collectLinesOfCommand(command)
 
-        return pkgNameList
+        foundPkgInfos = []
+        if(len(pkgLines) > 0):
+            for i in range(1,len(pkgLines)):
+                if(packageTerm in pkgLines[i]):
 
+                    packageLine = pkgLines[i]
+
+                    if(len(packageLine) > 8):
+
+                        #print("extracting from line: " + packageLine)
+                        lineParts = packageLine.split(" ")
+                        nameParts = lineParts[0].split("/")
+
+                        pkgInfo = {
+                            "name": nameParts[0],
+                            "installid": nameParts[0],
+                            "version": lineParts[1],
+                            "arch": lineParts[2],
+                            "pkgmgr": self.name
+                        }
+                        if(len(nameParts) > 1):
+                            pkgInfo["spec"] = nameParts[1]
+
+                        foundPkgInfos.append(pkgInfo)
+
+        return foundPkgInfos
+
+    def install(self,packageName):
+        command = "apt-get install " + packageName
+        print("Executing install: " + command)
+        os.system(command)
+        return True
+
+from tabulate import tabulate
 class UniStallManager:
 
     def __init__(self):
@@ -144,22 +265,119 @@ class UniStallManager:
         self.packageManagers.append(SnapManager())
         self.packageManagers.append(FlatPakManager())
 
+        self.tableKeys = ["name","version","pkgmgr","score"]
+        self.tableLabels = ["Name","Version","Package Manager","Score"]
+
     def find(self, fuzzyTerm):
         print("Trying to find package for: " + fuzzyTerm)
 
         searchTermHierarchy = createSearchHierarchy(fuzzyTerm)
         
+        #scoreBoards = []
+
+        fullScoreBoard = []
+
         for pkgManager in self.packageManagers:
 
-            sortedPackages = createPkgScoreBoard(searchTermHierarchy, pkgManager)
+            scoreBoard = createPkgScoreBoard(searchTermHierarchy, pkgManager)
 
             #nameResults = pkgManager.find(fuzzyTerm)
-            print("Packages found with " + pkgManager.name)
-            print(sortedPackages)
-        
+            #print("\nPackages found with " + pkgManager.name)
+            #print(scoreBoard)
+
+            #scoreBoards.push(scoreBoard)
+            
+            for scoreKey in scoreBoard:
+                pkgInfo = scoreBoard[scoreKey]
+                fullScoreBoard.append(pkgInfo)
+
+        fullScoreBoard.sort(key=lambda pkgInfo: pkgInfo["score"],reverse=True)
+        return fullScoreBoard
+
+        """cnt = 0
+        scoreTable = []
+        for pkgScore in fullScoreBoard:
+            scoreTable.append([str(cnt) + ")",pkgScore["name"],pkgScore["mgr"],pkgScore["score"]])
+            cnt += 1
+
+        #print(tabulate(scoreTable,headers=['Number', 'pkg-name', 'pkg-manager', 'score']))
+
+        return scoreTable"""
+
+        """for pkgScore in fullScoreBoard:
+
+            print("\"" + pkgScore["name"] + "\"\t\t\t" + str(pkgScore["score"]) + "\t" + pkgScore["mgr"])
+            ##print("\"" + pkgScore["name"] + "\": " + str(scoreBoard[key]))
+            #sortedKeys = sorted(scoreBoard)
+            #for key in sortedKeys:"""
+
+    def promptInstall(self,scoreResults,maxShowCnt):
+        print()
+        #print(tabulate(scoreResults[0:maxShowCnt],headers=['Number', 'pkg-name', 'pkg-manager', 'score']))
+
+        subListPkgInfos = scoreResults[0:maxShowCnt]
+        printResults = []
+        for row in subListPkgInfos:
+            elem = []
+            for propKey in self.tableKeys:
+                elem.append(row[propKey])
+
+            printResults.append(elem)
+
+        print(tabulate(printResults,headers=self.tableLabels,showindex="always"))
+        #print(tabulate(printResults,headers='keys',showindex="always"))
+        if(len(scoreResults) > maxShowCnt):
+            print("m) Show more")
+        print("e) Exit")
+        print()
+        response = input("Which package to install? ")
+
+        if(response.isnumeric()):
+            pickedNumber = int(response)
+            if(pickedNumber >= 0 and pickedNumber < maxShowCnt):
+                return scoreResults[int(response)]
+            else:
+                print("Number not in range - try again")
+                return self.promptInstall(scoreResults,maxShowCnt)
+
+        elif(response == "m"):
+            maxShowCnt = maxShowCnt * 5
+            return self.promptInstall(scoreResults,maxShowCnt)
+
+        elif(response == "e" or response == "exit"):
+            return None
+
+        else:
+            return self.promptInstall(scoreResults,maxShowCnt)
+
+    def findinstall(self,fuzzyTerm):
+        fullScoreBoard = self.find(fuzzyTerm)
+        maxShowCnt = 8
+
+        packageToInstall = self.promptInstall(fullScoreBoard, maxShowCnt)
+
+        if(packageToInstall is not None):
+            #return self.installPkgDef({"name":packageToInstall[1],"mgr":packageToInstall[2]})
+            return self.installPkgDef(packageToInstall)
+
+        return False
+
+    def getPackageManagerByName(self,name):
+        for pkgMgr in self.packageManagers:
+            if(pkgMgr.name == name):
+                return pkgMgr
+
+    def installPkgDef(self, pkgDefinintion):
+        packageManager = self.getPackageManagerByName(pkgDefinintion["pkgmgr"])
+        print("Installing " + pkgDefinintion["installid"] + " with " + packageManager.name)
+        return packageManager.install(pkgDefinintion["installid"])
+        #print("Installing")
+        #print(str(pkgDefinintion))
+        #return True
 
     def install(self, pkgName, pkgManager):
         print("Installing " + pkgName + " with " + pkgManager)
+        return True
 
     def remove(self, pkgName):
         print("Trying to uninstall package: " + pkgName)
@@ -174,7 +392,8 @@ results = pkgManager.find("firefox")
 print(results)"""
 
 pkgManager = UniStallManager()
-results = pkgManager.find("Mozilla Firefox 75.0 (x64 de)")
+#results = pkgManager.findinstall("Mozilla Firefox 75.0 (x64 de)")
+#results = pkgManager.findinstall("notepad++")
 #print(results)
 
 
