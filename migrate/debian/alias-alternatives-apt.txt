@@ -2,3 +2,4 @@
 # Left = Windows, Right = Linux
 Node.js = nodejs, node
 Adobe Premiere Pro = kdenlive, aaaa, vvvv
+cmake = gcc
