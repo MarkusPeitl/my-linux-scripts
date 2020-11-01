@@ -34,6 +34,7 @@ import re
 
 #Regex to remove invalid characters for searching
 blacklistRegex = re.compile("\(|\)|\+")
+minTopLength = 3
 minPartLength = 4
 maximumPercentOfNumbers = 0.6
 maxConsiderTerms = 4
@@ -48,7 +49,7 @@ def createSearchHierarchy(fullterm):
     toplevelname = fullterm.strip(" ").lower()
     toplevelname = toplevelname.replace(" ","")
     toplevelname = sanitize(toplevelname)
-    if(len(toplevelname) >= minPartLength):
+    if(len(toplevelname) >= minTopLength):
         #print("Appending toplevel: " + toplevelname)
         hierarchyLevels.append([toplevelname])
     else:
@@ -127,7 +128,7 @@ class SnapManager:
             headerParts = replaceWhitespaceRegex.sub(" ", header).split(" ")
 
             for i in range(1,len(pkgLines)):
-                if(packageTerm in pkgLines[i]):
+                if(packageTerm in pkgLines[i].lower()):
                     packageLine = pkgLines[i]
                     if(len(packageLine) > 8):
                         
@@ -139,6 +140,7 @@ class SnapManager:
                             "installid": lineParts[0],
                             "version": lineParts[1],
                             "publisher": lineParts[2],
+                            "notes": lineParts[3],
                             "description": " ".join(lineParts[4:]),
                             "pkgmgr": self.name
                         }
@@ -147,26 +149,30 @@ class SnapManager:
 
         return foundPkgInfos
 
-    def install(self,packageName):
+    def install(self,packageDef):
 
-        print("0) strict sandboxed - default")
-        print("1) classic - app has access to system")
-        print("e) exit app installation")
-        response = input("Confinement mode? ")
         flags = ""
 
-        if(len(response) > 0):
-            if(response.isnumeric() and int(response) >= 0 and int(response) <=1):
-                if(int(response) == 1):
-                    flags = " --classic"
-            elif response == "e":
-                return False
-            else:
-                print("Invalid option")
-                return self.install(packageName)
+        if("notes" not in packageDef or "classic" in packageDef["notes"]):
 
+            print("0) strict sandboxed - default")
+            print("1) classic - app has access to system")
+            print("e) exit app installation")
+            response = input("Confinement mode? ")
+            
 
-        command = "snap install " + packageName + flags
+            if(len(response) > 0):
+                if(response.isnumeric() and int(response) >= 0 and int(response) <=1):
+                    if(int(response) == 1):
+                        flags = " --classic"
+                elif response == "e":
+                    return False
+                else:
+                    print("Invalid option")
+                    return self.install(packageDef)
+            
+
+        command = "snap install " + packageDef["installid"] + flags
         print("Executing install: " + command)
         os.system(command)
         return True
@@ -180,6 +186,7 @@ class FlatPakManager:
     def find(self, packageTerm):
         command = "flatpak search " + packageTerm
         pkgLines = collectLinesOfCommand(command)
+        #print(pkgLines)
 
         foundPkgInfos = []
         if(len(pkgLines) > 0):
@@ -188,8 +195,9 @@ class FlatPakManager:
             headerParts = replaceWhitespaceRegex.sub(" ", header).split(" ")
 
 
-            for i in range(1,len(pkgLines)):
-                if(packageTerm in pkgLines[i]):
+            for i in range(0,len(pkgLines)):
+                #print("extracting from line: " + pkgLines[i] + " -> term: " + packageTerm)
+                if(packageTerm in pkgLines[i].lower()):
                     packageLine = pkgLines[i]
                     if(len(packageLine) > 8):
                         #print("extracting from line: " + packageLine)
@@ -208,8 +216,8 @@ class FlatPakManager:
 
         return foundPkgInfos
 
-    def install(self,packageName):
-        command = "flatpak install " + packageName
+    def install(self,packageDef):
+        command = "flatpak install " + packageDef["installid"]
         print("Executing install: " + command)
         os.system(command)
         return True
@@ -226,7 +234,7 @@ class AptManager:
         foundPkgInfos = []
         if(len(pkgLines) > 0):
             for i in range(1,len(pkgLines)):
-                if(packageTerm in pkgLines[i]):
+                if(packageTerm in pkgLines[i].lower()):
 
                     packageLine = pkgLines[i]
 
@@ -241,7 +249,8 @@ class AptManager:
                             "installid": nameParts[0],
                             "version": lineParts[1],
                             "arch": lineParts[2],
-                            "pkgmgr": self.name
+                            "pkgmgr": self.name,
+                            "description": "",
                         }
                         if(len(nameParts) > 1):
                             pkgInfo["spec"] = nameParts[1]
@@ -250,8 +259,8 @@ class AptManager:
 
         return foundPkgInfos
 
-    def install(self,packageName):
-        command = "apt-get install " + packageName
+    def install(self,packageDef):
+        command = "sudo apt-get install " + packageDef["installid"]
         print("Executing install: " + command)
         os.system(command)
         return True
@@ -265,8 +274,8 @@ class UniStallManager:
         self.packageManagers.append(SnapManager())
         self.packageManagers.append(FlatPakManager())
 
-        self.tableKeys = ["name","version","pkgmgr","score"]
-        self.tableLabels = ["Name","Version","Package Manager","Score"]
+        self.tableKeys = ["name","version","pkgmgr","score","description"]
+        self.tableLabels = ["Name","Version","Package Manager","Score","Description"]
 
     def find(self, fuzzyTerm):
         print("Trying to find package for: " + fuzzyTerm)
@@ -370,7 +379,7 @@ class UniStallManager:
     def installPkgDef(self, pkgDefinintion):
         packageManager = self.getPackageManagerByName(pkgDefinintion["pkgmgr"])
         print("Installing " + pkgDefinintion["installid"] + " with " + packageManager.name)
-        return packageManager.install(pkgDefinintion["installid"])
+        return packageManager.install(pkgDefinintion)
         #print("Installing")
         #print(str(pkgDefinintion))
         #return True
