@@ -1,0 +1,30 @@
+alias gco="git fetch && git checkout"
+alias nps="npm start"
+alias npt="npm run test"
+alias nin="npm install"
+alias gpl="git pull"
+alias gps="git push"
+alias gudev="gco develop && gpl"
+alias editbashrc="nano ~/.bashrc"
+alias reloadbashrc=". ~/.bashrc"
+alias py=python
+alias pyba="python -c"
+
+#Permanently add an alias to bashrc
+defalias(){
+        echo "alias $1" >> ~/.bashrc && . ~/.bashrc
+}
+
+#Checkout pull and npm start
+runbr(){
+        gco "$1" && gpl && nps
+}
+
+#Changing first char of a "git checkout" -> fetches + checks out branch + starts build
+bit(){
+        if [ $# -gt 0 ] && [ "$1" == "checkout" ] ; then
+                gco "$2" && nps
+        else
+                git "$@"
+        fi
+}
