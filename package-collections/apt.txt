@@ -16,6 +16,10 @@ ffmpeg
 git
 make
 gcc
+filezilla
+
+#browser
+torbrowser-launcher
 
 #--- Photo edit
 #digikam
@@ -26,32 +30,47 @@ gcc
 simplescreenrecorder
 
 #--- ScreenShot
-#shutter 
+shutter 
 
 #--- Office
-#libreoffice
+libreoffice
 
 #--- System
 #gnome-tweaks
 #gnome-shell-extensions
 
 #--- Internet
-#firefox
+firefox
 
 #--- Audio
-audacity
+#audacity
 
 #--- Video
 obs-studio
+vlc
 
 #--- Mail
 thunderbird
 
 #package managers
 flatpak
+#snapd
+
+#Text editors
+#geany
+#sublime
+#brackets
+
+#Markdown editors
+#remarkable
+#retext
+
 
 #Shell
 zsh
+
+#Utils
+unzip
 
 #Virtual Machine Software
 #virtualbox

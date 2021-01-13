@@ -1,0 +1,3 @@
+
+#Widgets plasmoids
+https://github.com/spmdrd/plasma-applet-cryptocurrency-price

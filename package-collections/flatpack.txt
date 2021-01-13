@@ -9,7 +9,7 @@
 #flathub org.libreoffice.LibreOffice
 #flathub org.kde.kdenlive
 -y flathub com.github.carlos157oliveira.Calculus
--y flathub io.atom.Atom
+#-y flathub io.atom.Atom
 
 
 #flatpak run com.valvesoftware.Steam

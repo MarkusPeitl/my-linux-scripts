@@ -15,7 +15,7 @@
 
 #--- DEV
 code --classic
-notepad-plus-plus
+#notepad-plus-plus
 #android-studio --classic
 
 #node --classic
@@ -27,12 +27,14 @@ notepad-plus-plus
 #--- Internet
 #chromium
 #firefox
+opera
 
 #--- Audio
 #audacity
 
 #--- Screenshot
 #shutter
+flameshot
 
 #--- Video
 #vlc
@@ -43,12 +45,21 @@ notepad-plus-plus
 #--- Communication
 skype --classic
 #slack
-#discord
+discord
 
 #--- Misc
 #canonical-livepatch
 #ffmpeg
 #simplenote
 
+#Emulators
+visualboyadvance-m --edge
+    #3ds
+citra-emu
+    
+#Organisation
+    #kanban
+wekan #configuration (https://github.com/wekan/wekan-snap/wiki/Install)
+    
 #--- Android
-anbox --beta --devmode --jailmode
+#anbox --beta --devmode --jailmode
