@@ -1,3 +1,129 @@
+# -----------------------------------------------------------------------------
+#KDE stuff
+
+#Add widgets by -> right click -> desktop
+# Customiz Size or remove by right clicking desktop and "Customize Layout"
 
 #Widgets plasmoids
-https://github.com/spmdrd/plasma-applet-cryptocurrency-price
+git clone https://github.com/spmdrd/plasma-applet-cryptocurrency-price
+unzip plasma-applet-cryptocurrency-price-master.zip
+cd plasma-applet-cryptocurrency-price-master
+plasmapkg2 -i package
+
+#Terminal plasmoid
+sudo add-apt-repository ppa:vantuz/cool-retro-term sudo apt update sudo apt install cool-retro-term
+https://store.kde.org/p/1169451/
+
+#Terminal plasmoid 2
+https://store.kde.org/p/1002089/
+
+#Todo List
+https://github.com/Zren/plasma-applet-todolist
+
+
+#https://github.com/Zren/plasma-applets
+
+
+# KDE Application styles
+#https://store.kde.org/browse/cat/421/order/latest/
+
+
+
+#Add task manager bars as widgets
+# A panel can be defined as part of a screen and widgets can be added to it
+#discover new apps https://apps.kde.org/en/discover
+
+#Interesting app for reverse engineering https://apps.kde.org/en/kcachegrind
+#or https://github.com/KDE/heaptrack
+
+#"Autostart" -> disable startup applications
+
+# -----------------------------------------------------------------------------
+
+#Daemon that tries to predict application start behaviour and speeds up startup time/ cache time
+sudo apt-get install preload
+
+#Parralled downloader for apt installation
+sudo add-apt-repository ppa:apt-fast/stable
+sudo apt-get update
+sudo apt-get install apt-fast
+
+#Turbo and power save modes
+sudo add-apt-repository ppa:linrunner/tlp
+sudo apt-get update
+sudo apt-get install tlp tlp-rdw
+sudo tlp start
+sudo apt-get install indicator-cpufreq
+
+
+#Profiling service startup times
+systemd-analyze blame
+#Disable service auto start
+sudo systemctl disable some-time-eater-service.service --now
+
+
+#Basic system info
+sudo dmidecode | grep -A 9 "System Information"
+
+#Show full system information:
+sudo dmidecode
+
+sudo dmidecode | less
+
+#Show list of xinput devices
+xinput --list
+
+
+
+#Install hwinfo tool
+sudo apt-get install hwinfo
+#List hardware
+sudo hwinfo --short
+
+#https://github.com/rodgomesc/avell-unofficial-control-center -> for x17803 keyboard
+#Also interesting project as it distibutes python code as cmd utility
+sudo pip3 install avell-unofficial-control-center
+aucc -c green -b 4 # Setting rgb lights to green
+#Build/Install from source:
+git clone https://github.com/rodgomesc/avell-unofficial-control-center
+cd avell-unofficial-control-center
+python3 setup.py build
+sudo python3 setup.py install
+# Another similar project https://github.com/pobrn/ite8291r3-ctl
+
+
+#Install pip3
+sudo apt install python3-pip
+
+
+#Interesting RGB control project:
+#https://gitlab.com/CalcProgrammer1/OpenRGB
+
+
+#https://askubuntu.com/questions/22108/how-to-control-fan-speed
+#https://wiki.ubuntuusers.de/Lm_sensors/
+sudo apt-get install lm-sensors
+#https://wiki.ubuntuusers.de/L%C3%BCftersteuerung/
+sudo sensors-detect
+sensors
+sudo apt-get install psensor # graphical
+#https://wiki.archlinux.org/index.php/fan_speed_control
+
+
+
+
+#-------------------------------- apps
+#Install playonlinux
+sudo apt install playonlinux
+
+#Install quemu system emulator VM
+sudo apt-get install qemu-kvm qemu virt-manager virt-viewer libvirt-bin
+
+#Stream compability app proton
+#https://segmentnext.com/2018/12/06/steam-proton-guide/#:~:text=Unlocking%2Factivating%20Steam%20Proton%20on,able%20to%20play%20those%20titles.
+
+# Lutris game platform - start install configure scripts for various games
+https://github.com/lutris/lutris
+
+# Installing wine on x64 system (https://vitux.com/how-to-install-wine-on-ubuntu/)
+sudo apt install wine64
