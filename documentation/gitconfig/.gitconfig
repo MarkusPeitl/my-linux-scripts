@@ -1,0 +1,8 @@
+[includeIf "gitdir:~/repos/work/"]
+path = ~/.gitconfig-work
+[includeIf "gitdir:~/repos/"]
+path = ~/.gitconfig-common
+[core]
+        editor = nano
+[credential]
+	helper = /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
