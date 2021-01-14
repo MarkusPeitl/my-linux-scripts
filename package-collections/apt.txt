@@ -70,6 +70,12 @@ thunderbird
 flatpak
 #snapd
 
+#file managers
+#dolphin
+thunar
+#nautilus
+konqueror
+
 #Text editors
 #geany
 #sublime
@@ -89,7 +95,9 @@ flatpak
 
 
 #Shell
+#https://www.tecmint.com/install-zsh-in-ubuntu/
 zsh
+#Then install oh-my-zsh - https://github.com/ohmyzsh/ohmyzsh
 
 #Utils
 unzip
@@ -97,4 +105,7 @@ unzip
 #Virtual Machine Software
 #virtualbox
 #virtualbox-qt
-#virtualbox-dkms 
+#virtualbox-dkms
+
+#For getting rid of uncurated ppas
+ppa-purge

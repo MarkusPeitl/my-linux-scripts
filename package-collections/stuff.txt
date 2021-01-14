@@ -13,6 +13,7 @@ plasmapkg2 -i package
 #Terminal plasmoid
 sudo add-apt-repository ppa:vantuz/cool-retro-term sudo apt update sudo apt install cool-retro-term
 https://store.kde.org/p/1169451/
+https://github.com/koldbyte/termoid
 
 #Terminal plasmoid 2
 https://store.kde.org/p/1002089/
@@ -161,3 +162,36 @@ sudo apt install lutris
 sudo apt install wine64
 sudo apt install wine32
 #winefile #Start wine UI 
+
+
+#Umounting and remounting drives
+#https://askubuntu.com/questions/11840/how-do-i-use-chmod-on-an-ntfs-or-fat32-partition/956072#956072
+
+
+#Change default file associations:
+sudo nano /usr/share/applications/mimeinfo.cache
+
+
+#If some icons are missing from some applications:
+# For example icons of thunar file manager
+sudo apt-add-repository universe
+sudo apt-get update
+sudo apt-get install gnome-icon-theme
+
+# Polo file manager
+sudo apt-add-repository -y ppa:teejee2008/ppa
+sudo apt-get update
+sudo apt-get install polo-file-manager
+
+
+#Shell
+#https://www.tecmint.com/install-zsh-in-ubuntu/
+sudo apt-get install zsh
+#Then run "zsh" and configure
+#Then install oh-my-zsh - https://github.com/ohmyzsh/ohmyzsh
+cd ~/Downloads
+git clone https://github.com/ohmyzsh/ohmyzsh
+cd ohmyzsh
+sh tools/install.sh
+cd ../
+sudo rm -r ohmyzsh
