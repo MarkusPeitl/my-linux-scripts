@@ -2,6 +2,7 @@
 #wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 #chmod +x Miniconda3-latest-Linux-x86_64.sh
 #./Miniconda3-latest-Linux-x86_64.sh
+#conda config --set auto_activate_base false
 #export PATH=~/miniconda/bin:$PATH
 
 #cd ~/Downloads
@@ -22,3 +23,15 @@
 
 # Visit
 # https://www.displaylink.com/downloads/file?id=1576
+
+
+#---- Development
+
+# Node version manager:
+cd ~/Downloads
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+#nvm = usage
+
+
+
+#https://wiki.ubuntuusers.de/Grafik/

@@ -49,6 +49,20 @@ firefox
 obs-studio
 vlc
 
+#--- Image
+#gthumb
+#gwenview kinfocenter
+nomacs
+qimgv
+
+#-- Image Editing
+darktable
+rawtherapee
+
+#--- Vector graphics:
+#https://wiki.ubuntuusers.de/Inkscape/
+inkscape
+
 #--- Mail
 thunderbird
 
@@ -64,6 +78,14 @@ flatpak
 #Markdown editors
 #remarkable
 #retext
+
+#Gaming
+#playonlinux
+
+#sudo dpkg --add-architecture i386
+#sudo add-apt-repository multiverse
+#sudo apt-get update
+#steam
 
 
 #Shell

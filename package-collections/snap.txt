@@ -28,6 +28,7 @@ code --classic
 #chromium
 #firefox
 opera
+#jdownloader2
 
 #--- Audio
 #audacity
@@ -41,6 +42,10 @@ flameshot
 #obs-studio
 #shotcut
 #kdenlive
+
+#--- Vector graphics:
+#https://wiki.ubuntuusers.de/Inkscape/
+inkscape
 
 #--- Communication
 skype --classic
