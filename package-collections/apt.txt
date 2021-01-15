@@ -45,9 +45,20 @@ firefox
 #--- Audio
 #audacity
 
+#--- Music
+cmus #Terminal
+
+#--- DAWS
+lmms
+
 #--- Video
-obs-studio
-vlc
+obs-studio #broadcast/record
+vlc #player
+kodi #player
+openshot #editor
+#pitivi (cmd needs testing)
+#lightworks (cmd needs testing)
+#ardour (cmd needs testing)
 
 #--- Image
 #gthumb
@@ -88,6 +99,12 @@ konqueror
 #Gaming
 #playonlinux
 
+#System / System Optimizers
+stacer
+
+#Backup/Snapshot
+timeshift
+
 #sudo dpkg --add-architecture i386
 #sudo add-apt-repository multiverse
 #sudo apt-get update
@@ -101,6 +118,10 @@ zsh
 
 #Utils
 unzip
+
+#KDE bluetooth stack
+bluez
+bluedevil
 
 #Virtual Machine Software
 #virtualbox

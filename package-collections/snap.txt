@@ -41,7 +41,8 @@ flameshot
 #vlc
 #obs-studio
 #shotcut
-#kdenlive
+kdenlive
+natron #animations/effects
 
 #--- Vector graphics:
 #https://wiki.ubuntuusers.de/Inkscape/
@@ -52,16 +53,29 @@ skype --classic
 #slack
 discord
 
+#Text/ Code editors
+notepadqq
+brackets --classic
+
+#Painting/ Drawing
+krita
+
 #--- Misc
 #canonical-livepatch
 #ffmpeg
 #simplenote
 
+#Password manager
+bitwarden
+
 #Emulators
 visualboyadvance-m --edge
     #3ds
 citra-emu
-    
+
+#file manager
+fman #extendable fm
+
 #Organisation
     #kanban
 wekan #configuration (https://github.com/wekan/wekan-snap/wiki/Install)
