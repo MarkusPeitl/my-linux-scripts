@@ -1,0 +1,79 @@
+** SSH ACCESS SETUP:
+
+cd ~/ssh/
+ssh-keygen -t rsa -b 4096
+# -> Enter data for the keypair (name password)
+# Print out file contents and copy
+cat key_name.pub
+# Insert as ssh public key on your hoster
+# Find out public ip of you server from hoster
+
+# Ssh into your sever as root user
+ssh root@your.public.ip.address -i ~/ssh/key_name
+
+
+** INITIAL USER SETUP:
+
+- Create new Password for root
+passwd
+
+- Check admin users (if some of them already exist)
+cat /etc/sudoers
+
+- Add your everyday user
+adduser yournewusername
+# Then enter your new Password for the user and other user info
+
+- Add your user to the sudo group (if you want the user to have admin priviledges)
+usermod -G sudo yournewusername
+
+- Switch to you newly created user (switch user)
+su yournewusername
+
+- Make sure you can access sudo and therefore have admin access, before continuing !!!
+sudo -v
+# This should print out nothing -> if you do not have sudo priviledges (Sorry, user testuser may not run sudo on machine) is printed
+
+- If you are sure you are an admin you can disable your root account (at least for ssh login)
+sudo nano /etc/ssh/sshd_config
+# -> Go to 
+# PermitRootLogin yes
+# and set it to 
+# PermitRootLogin no
+# Save:     ctrl + x    ,y  ,Enter
+
+- Reload the sshd server for the configuration changes to take effect
+sudo systemctl restart sshd
+
+- Close ssh session (repeat until session is closed)
+exit
+
+- Check if disabling root ssh logon worked 
+ssh root@your.public.ip.address -i ~/ssh/key_name
+# If you enter your correct password and it says "Permission denied, please try again" it worked
+
+- Check if ssh access with your new user works
+ssh yournewusername@your.public.ip.address -i ~/ssh/key_name
+# After entering your password you should be able to use the user
+
+
+** Configuring a SSH-shortcut
+
+Host myserver
+	HostName your.public.ip.address
+	User pmarkus
+	PORT 22
+	IdentityFile ~/.ssh/hostinger_rsa
+
+# Host: is any label with which you want to use ssh to connect to the machine ( use short ones if you want to ssh often)
+# HostName: Url to you maching or a public ip address point to your machine (be carful as if you have a dynamic ip address this can change)
+# therefore its better to use a static ip (ipv6 addresses are usually easier to get) or have a domain ready that you can point to your server
+# usually there is also some kind of free DNS url to your server provided by you hosting service, which you can use.
+# so for quick checking -> use public dyncamic ip, for a permanent link -> use the static url provided by your hoster, for something easy to remember 
+# -> use a domain that dns resolves to your server
+# User: As which user do you want to log onto the machine
+# PORT: Which port (default is 22 can be changed on you server in /etc/ssh/sshd_config + restart service)
+# IdentityFile: Which private Keyfile to use for connecting (server should have public keyfile)
+
+# then connect by entering
+ssh myserver

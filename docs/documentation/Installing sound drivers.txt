@@ -1,0 +1,34 @@
+ 
+http://howto.blbosti.com/2010/03/ubuntu-server-install-alsa-sound-and-moc-music-on-console/
+
+- Install the ALSA sound driver
+
+sudo apt-get install alsa alsa-tools
+sudo adduser yourusername audio
+#reboot
+alsamixer
+
+- Install pulseaudio sound server to act as middleware and configure
+https://wiki.archlinux.org/index.php/PulseAudio
+
+sudo apt-get install pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-equalizer pulseaudio-jack #pulseaudio-lirc pulseaudio-zeroconf
+
+- Install multimedia framework "gstreamer"
+https://wiki.ubuntuusers.de/GStreamer/
+
+sudo apt-get install libgstreamer1.0-0 gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-libav gstreamer1.0-doc gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-alsa gstreamer1.0-gl gstreamer1.0-gtk3 gstreamer1.0-qt5 gstreamer1.0-pulseaudio
+#gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly
+
+- PulseAudio UI:
+https://wiki.ubuntuusers.de/pavucontrol/
+
+sudo apt-get install pavucontrol 
+
+- Sound Mixer
+sudo apt-get install kmix
+
+#Then configure "Global shortcuts" for kmix for the media buttons to work
+
+#Under KDE this can be done 
+#by going to "System Settings" -> "Global Shortcuts" -> "Kmix" 
+#and adding missing shortcuts by "Add custom shortcut" and operating the media buttons

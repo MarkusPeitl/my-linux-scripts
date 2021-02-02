@@ -1,0 +1,11 @@
+
+1.
+clone https://github.com/lestofante/ksysguard-gpu
+
+2.
+sudo bash install.sh
+
+3. open ksysguard
+4. new tab
+5. File -> Monitor Remote Machine -> 127.0.0.1, Daemon, Port 3112
+6. Select in Sensor Browser and create graphs
