@@ -1,4 +1,0 @@
-[user]
-        name = "YOUR NAME"
-        password = "SOMEGITACCESSTOKEN or PASSWORD -> if possible use libsecret instead
-        email = "PRIVATE EMAIL"

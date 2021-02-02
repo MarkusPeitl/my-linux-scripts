@@ -1,4 +1,6 @@
- 
+# Creating and configuring an SSH server on debian
+
+```shell
 sudo apt-get update
 sudo apt-get install openssh-server
 #Check ssh server state
@@ -48,8 +50,6 @@ ssh -v -p 2654 pmarkus@127.0.0.1
 sudo systemctl stop sshd
 sudo systemctl status sshd
 
-
-
 #Termux
 #apt install openssh
 #sshd
@@ -57,3 +57,4 @@ sudo systemctl status sshd
 #ifconfig
 #nmap localhost
 #ssh u0_a278@192.168.0.107 -p 8022
+```
