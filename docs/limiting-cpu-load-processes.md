@@ -1,14 +1,6 @@
-sudo apt-get install intel-microcode
-sudo apt-get install network-manager
-nmcli
-nmcli radio wifi on
+# Limiting the cpu load of processes
 
-network-manager network-manager-gnome
-
-Removing chrome:
-sudo apt-get remove google-chrome-stable
-
-
+```shell
 #Limiting the cpu load of services
 https://www.tecmint.com/limit-cpu-usage-of-a-process-in-linux-with-cpulimit-tool/
 sudo apt install cpulimit
@@ -22,5 +14,6 @@ sudo cpulimit --pid 5087 --limit 20
 #Run non-blocking in background
 sudo cpulimit --pid 5087 --limit 20 -b
 
-#Kill it if the pr
+#Kill limiter it if the process dies
 sudo cpulimit --pid 17918 --limit 20 --kill --lazy
+```

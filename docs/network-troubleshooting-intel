@@ -1,0 +1,9 @@
+sudo apt-get install intel-microcode
+sudo apt-get install network-manager
+nmcli
+nmcli radio wifi on
+
+network-manager network-manager-gnome
+
+Removing chrome:
+sudo apt-get remove google-chrome-stable
