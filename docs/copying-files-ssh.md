@@ -57,3 +57,10 @@ rsync -e "ssh -p 5555" -avz ~/.bashrc peitl@192.168.0.117:"~/.bashrc"
 ### Advantage
 
 -> compression -> faster than scp -> better for larger files
+
+#### If you like the article consider dropping me a coffee
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?hosted_button_id=BSFX8LCPHW2AE)
+  
+<br>  
+<br>  

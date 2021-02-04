@@ -58,3 +58,10 @@ sudo systemctl status sshd
 #nmap localhost
 #ssh u0_a278@192.168.0.107 -p 8022
 ```
+
+#### If you like the article consider dropping me a coffee
+
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?hosted_button_id=BSFX8LCPHW2AE)
+  
+<br>  
+<br>  
