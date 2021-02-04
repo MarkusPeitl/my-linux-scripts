@@ -1,6 +1,8 @@
-# Some basic setup steps, when setting up a clean Debian or Ubuntu VPS server
+# Some basic setup steps, when setting up a clean Debian or Ubuntu VPS server, from a linux distribution
 
 ## SSH ACCESS SETUP
+
+Open up you terminal "CTRL + ALT + T".
 
 ```bash
 mkdir -p ~/.ssh/
@@ -16,14 +18,23 @@ ssh-keygen -t rsa -b 4096
 
 After these steps your new key pair is generated in the current directory.
 
+Print out the public key file's contents and the select the contents in your terminal and copy them.
+(you could also open it in an editor and copy the contents there, or use xclip to do this inside of the terminal)
+
 ```bash
-# Print out file contents and copy
 cat key_name.pub
-# Insert as ssh public key on your hoster if that option is available (TODO add description for doing this manually)
-# Find out public ip of you server from your hoster (your.public.ip.address)
 ```
 
-Ssh into your sever as root user
+Insert as ssh public key on your hosters side if that option is available. (probably the best and securest option)
+If not your hoster might provide you with a login password to your root account, then you can omit setting the  
+-i (identityfile) option in the next terminal step.
+(TODO add description for how to add pub key files manually)  
+
+Then find out the public ip of you server from your hoster (your.public.ip.address)  
+Usually findable somewhere on your dashboard or in your server settings/info  
+
+<br>
+Ssh into your server as root user (to take control over it), with the info from your hoster.
 
 ```bash
 ssh root@your.public.ip.address -i ~/ssh/key_name
@@ -52,8 +63,9 @@ cat /etc/sudoers
 
 ```bash
 adduser yournewusername
-# Then enter your new Password for the user and other user info
 ```
+
+Then enter your new Password for the user and other user info in the prompts that follow.
 
 <br>
 - Add your user to the sudo group (if you want the user to have admin priviledges).  
@@ -90,7 +102,7 @@ cat /etc/sudoers
 ```
 
 <br>
-- If you are you have prividledges there is no reason to use your root account to login via ssh anymore.  
+- If your user now has sudo priviledges there is no reason to use your root account to login via ssh anymore.  
 
 ```bash
 sudo nano /etc/ssh/sshd_config
