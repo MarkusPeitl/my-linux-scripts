@@ -1,0 +1,55 @@
+# Configure a static local ip to always reach device inside the network with the same ip #
+
+Useful if there is a service running on the device and you want to connect to it
+as a media server, nas or ssh into the device.
+
+Go to router settings in browser:
+http://192.168.0.1/
+
+Look for DHCP (Dynamic Host Configuration Protocol) settings.
+These settings decide what ip address is assigned to a connected host in the local nework.
+Look for "address reservation":
+- Enter MAC address (can be found out in linux with "ip link") (this can be sped up if you find a clients list in your router settings that displays the mac addresses) 
+- Enter the IP address under which you want to reach your host (assigns host ip if device with mac (phsysical) address gets connected to the router)
+- Enable address reservation entry
+- Check everything worked (disconnect your host from LAN or WLAN -> reconnect to router again -> call "ifconfig" to check local ip)
+
+
+Set up tunneling via VPS:
+https://www.devdungeon.com/content/expose-local-port-over-remote-vps-ssh-remote-port-forwarding
+
+Create a reverse tunnel over ssh (tunnel from remote host to local host)
+```
+ssh -R 2999:localhost:3344 hostname.com
+```
+- 2999: Port to open for listening to packets on remote machine
+- localhost: ip in the local network to open/route the ssh connection to
+- 3344: Port to open for listening to packets on the local target machine
+- hostname.com: ip address or domain of the remote host from which to connect to this machine using ssh Protocol
+
+Check open ports on server (ssh into it first)
+```
+netstat -ntl
+```
+
+To make the openend port publicly available the ssh server settings need to be changed
+on the remote server  
+"GatewayPorts yes"  
+has to be added to /etc/ssh/sshd_config  
+Then restart ssh server
+sudo systemctl restart sshd
+
+Now redo the ssh reverse tunnel and check the connection from the remote host ip (or domain)
+to the local machine.
+
+Example apache 2 server listening on 3344
+-> Reverse tunnel command above
+-> Open up myserverdomain.com:2999/index.html
+
+Pointing a domain to a VPS server:
+https://www.hostinger.com/tutorials/dns/how-to-point-domain-to-vps
+
+
+Starting ssh tunnels from managing machine:
+- Make sure to have ssh access from you managing machine to your target host machines (where the wantes service or server is located)
+ssh -t targetsshhostalias "ssh -R 2900:localhost:3344"
