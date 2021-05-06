@@ -130,3 +130,26 @@ bluedevil
 
 #For getting rid of uncurated ppas
 ppa-purge
+
+
+#More
+jack
+qjackctl
+pulseaudio-module-jack
+
+#KxStudio Apps (Audio production)
+kxstudio-meta-audio
+kxstudio-meta-audio-applications
+kxstudio-recommended-all
+cadence
+cadence-jackmeter
+cadence-tools
+claudia
+fluidplug
+jackass
+carla carla-bridge-win32 carla-bridge-win64 carla-bridge-wine32 carla-bridge-wine64
+
+meld
+archiso
+yakuake
+#joplin
