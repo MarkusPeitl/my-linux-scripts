@@ -10,6 +10,15 @@ APP_IMG_NAME=$(basename $1)
 echo "Name of the AppImage: "$APP_IMG_NAME
 NEW_NAME=$2
 echo "New name to be installed as: "$NEW_NAME
+
+if [ -z $APP_IMG_PATH ]; then
+    echo "Please pass a path to the appimage as argument! - exiting"
+    exit 1
+fi
+if [ -z $NEW_NAME ]; then
+    echo "Please pass an installation name as argument! - exiting"
+    exit 1
+fi
 printf "\n" 
 ```
 
