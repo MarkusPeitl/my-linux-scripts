@@ -1,6 +1,10 @@
-# Short instruction on how to install an appimage and create the desktop shortcut  
+# Short instruction on how to install an AppImage and create the desktop shortcut  
 
-Call this script with the appimage path and the name the program (binary) should have afterwards.
+On a linux based system.  
+
+Call this script with the **appimage path** and the **new name** the program (binary) should have afterwards.
+`install-appimage.sh ~/Downloads/my-downloaded.AppImage installed-bin-name`  
+On some ways on how to get this script on your computer see at the bottom of this page.  
 
 ```bash
 START_DIR=$(pwd)
@@ -94,3 +98,43 @@ cd $START_DIR
 printf "\n"
 echo "Finished installing $APP_IMG_NAME as $NEW_NAME!"
 ```
+
+Now you are ready to start the application by looking for the desktop file or by
+using your terminal and entering the new application name and hitting enter.
+
+If you do not want to copy the sections of this script to a .sh file to exectute  
+and instead want to run it directly from this page or install it on your computer permanently you  
+can use **rnmd**.  
+
+If you have pip (python modules installer) on your PC you can just do:  
+`pip3 install rnmd`  
+
+Or follow the instructions on the github page of the project:  
+[rnmd github page](https://github.com/MarkusPeitl/rnmd)  
+
+then you can run this page by:  
+`rnmd https://www.github.com/MarkusPeitl/my-linux-scripts/docs/install-appimage.md --args ~/Downloads/my-downloaded.AppImage installed-bin-name`  
+
+or install the script permanently to use it more often:  
+
+**First time setup** of rnmd:  
+`rnmd --setup`  
+and follow the instructions.  
+
+Then install the script.  
+`rnmd www.github.com/MarkusPeitl/my-linux-scripts/docs/install-appimage.md --portableinstall appimageinstall`  
+
+Then run the **appimageinstall** script whenever you need it:  
+`appimageinstall ~/Downloads/my-downloaded.AppImage installed-bin-name`  
+
+That was it i hope you liked this small guide.  
+If you have any more questions just send me an email to:  
+[office@markuspeitl.com](mailto:office@markuspeitl.com)
+
+### If you like the article consider dropping me a coffee  
+
+Maybe some crypto currency (redirects to a donation box on my blog):  
+<a href="https://blog.markuspeitl.com/donate/"><img src="https://blog.markuspeitl.com/wp-content/plugins/cryptocurrency-donation-box/assets/logos/bitcoin.svg" width="50" /></a><a href="https://blog.markuspeitl.com/donate/"><img src="https://blog.markuspeitl.com/wp-content/plugins/cryptocurrency-donation-box/assets/logos/ethereum.svg" width="30" /></a><a href="https://blog.markuspeitl.com/donate/"><img src="https://blog.markuspeitl.com/wp-content/plugins/cryptocurrency-donation-box/assets/logos/xrp.svg" width="50" /></a><a href="https://blog.markuspeitl.com/donate/"><img src="https://blog.markuspeitl.com/wp-content/plugins/cryptocurrency-donation-box/assets/logos/stellar.svg" width="50" /></a><a href="https://blog.markuspeitl.com/donate/"><img src="https://blog.markuspeitl.com/wp-content/plugins/cryptocurrency-donation-box/assets/logos/litecoin.svg" width="50" /></a>
+
+Or a coffee via paypal:  
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?hosted_button_id=BSFX8LCPHW2AE)
